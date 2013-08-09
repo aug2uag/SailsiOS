@@ -1,0 +1,1 @@
+Sails iOS application implementation for iOS6.
