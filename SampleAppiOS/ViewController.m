@@ -9,11 +9,14 @@
 #import "ViewController.h"
 
 
-@interface ViewController ()
+@interface ViewController () <NSStreamDelegate>
 {
     SocketIO* socketIO;
     __weak IBOutlet UICollectionView *oCollectionView;
     __weak IBOutlet UITextView *oTextView;
+    
+    NSInputStream *inputStream;
+    NSOutputStream *outputStream;
 }
 
 - (IBAction)submitText:(id)sender;
@@ -61,7 +64,7 @@
     // objects returned as NSDATA data property (variableName.data)
     NSLog(@"in here");
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8081"]
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8081/"]
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                                        timeoutInterval:10];
     
@@ -70,7 +73,16 @@
     NSError *requestError;
     NSURLResponse *urlResponse = nil;
     NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+    
+//    if (statusCode == 200) {
+//        [oCollectionView reloadData];
+//    }
+    
     NSLog(@"synchronous for handshake-- => data = %@", response1);
+    //NSInteger statusCode = [((NSHTTPURLResponse *)response1) statusCode];
+
+    //NSLog(@"status code => %i", statusCode);
+    
     NSString* stringFromData = [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding];
     NSLog(@"data converted to string ==> string = %@", stringFromData);
 
@@ -82,43 +94,29 @@
     NSString* deviceId = [deviceUUID UUIDString];
     NSLog(@"devicetype =>%@\ndeviceId => %@", deviceType, deviceId);
     
-    [oCollectionView reloadData];
 }
 
-#pragma mark io delegate methods
 
-
-#pragma mark -collectionView methods
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return 3;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    if (cell == nil) {
-       cell = [[UICollectionViewCell alloc] init];
-    }
-    
-    if (indexPath.row == 0) {
-        cell.backgroundColor = [UIColor purpleColor];
-    } else if (indexPath.row == 1) {
-        cell.backgroundColor = [UIColor redColor];
-    } else {
-        cell.backgroundColor = [UIColor orangeColor];
-    }
-    return cell;
-}
 
 #pragma mark -action methods
 - (IBAction)submitText:(id)sender
 {
     NSLog(@"submit");
+    //make object and post to sails
+    NSArray* arrayKeys = @[@"phonename", @"deviceType", @"deviceId"];
+    NSArray* arrayValues = @[@"'Nubert'", @"iPhone4S", @"001"];
+    NSDictionary* tempDictionary = [[NSDictionary alloc] initWithObjects:arrayValues forKeys:arrayKeys];
+    NSData* dataObject = [NSKeyedArchiver archivedDataWithRootObject:tempDictionary];
+    
+    NSLog(@"data looks like => %@", dataObject);
+    
+    SocketIOCallback cb = ^(id argsData) {
+        NSDictionary *response = argsData;
+        NSLog(@"response => %@", response);
+        // do something with response //no response detected "error: No callback specified!"
+    };
+    [socketIO sendEvent:@"POST" withData:tempDictionary andAcknowledge:cb];
+    
+
 }
 @end
