@@ -12,7 +12,7 @@
 @interface ViewController () <NSStreamDelegate>
 {
     SocketIO* socketIO;
-
+    
     __weak IBOutlet UITextField *oTextField;
     __weak IBOutlet UITextView *oTextView;
     
@@ -47,7 +47,7 @@
     //converts response to string (index.html)
     NSString* stringFromData = [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding];
     NSLog(@"data converted to string ==> string = %@", stringFromData);
-
+    
     //init socket.io
     socketIO = [[SocketIO alloc] initWithDelegate:self];
     [socketIO connectToHost:@"localhost" onPort:1337];
@@ -67,7 +67,7 @@
     [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
-
+    
 }
 
 
@@ -83,10 +83,17 @@
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection {
     oTextView.text = [[NSString alloc] initWithData:mutableData encoding:NSUTF8StringEncoding];
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        NSArray* returnArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSLog(@"jsonArray => %@", returnArray);
+    }];
+    
+    
     //NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     //NSString *path = [documentsDir stringByAppendingPathComponent:suggestedFilename];
     //[mutableData writeToFile:path atomically:YES];
-
+    
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
