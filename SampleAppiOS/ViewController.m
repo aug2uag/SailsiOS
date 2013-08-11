@@ -32,39 +32,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //  **Socket.io API** 
-    //send data
-    /**
-    - (void) sendMessage:(NSString *)data;
-    - (void) sendMessage:(NSString *)data withAcknowledge:(SocketIOCallback)function;
-    - (void) sendJSON:(NSDictionary *)data;
-    - (void) sendJSON:(NSDictionary *)data withAcknowledge:(SocketIOCallback)function;
-    - (void) sendEvent:(NSString *)eventName withData:(NSDictionary *)data;
-    - (void) sendEvent:(NSString *)eventName withData:(NSDictionary *)data andAcknowledge:(SocketIOCallback)function;
-     **/
-    
-    //callBack
-    /**
-     SocketIOCallback cb = ^(id argsData) {
-     NSDictionary *response = argsData;
-     // do something with response
-     };
-     [socketIO sendEvent:@"welcomeAck" withData:dict andAcknowledge:cb];
-     **/
-    
-    //handshake
-    /**
-     [socketIO connectToHost:@"localhost"
-     onPort:3000
-     withParams:[NSDictionary dictionaryWithObjectsAndKeys:@"1234", @"auth_token", nil]
-     ];
-     **/
-    
-    //namespace
-    /**
-     [socketIO connectToHost:@"localhost" onPort:3000 withParams:nil withNamespace:@"/users"];
-     **/
-    // objects returned as NSDATA data property (variableName.data)
     
     //handshake
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:1337/"]
@@ -92,8 +59,6 @@
 #pragma mark -action methods
 - (IBAction)submitText:(id)sender
 {
-    //from http://codewithchris.com/tutorial-how-to-use-ios-nsurlconnection-by-example/#post
-    
     NSMutableURLRequest *request = [NSMutableURLRequest
 									requestWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"]];
     
@@ -125,7 +90,7 @@
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSLog(@"Erro");
+    NSLog(@"Error");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     [alert show];
 }
