@@ -12,7 +12,8 @@
 @interface ViewController () <NSStreamDelegate>
 {
     SocketIO* socketIO;
-    __weak IBOutlet UICollectionView *oCollectionView;
+
+    __weak IBOutlet UITextField *oTextField;
     __weak IBOutlet UITextView *oTextView;
     
     NSInputStream *inputStream;
@@ -64,7 +65,7 @@
     // objects returned as NSDATA data property (variableName.data)
     NSLog(@"in here");
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8081/"]
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:1337/"]
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                                        timeoutInterval:10];
     
@@ -87,7 +88,7 @@
     NSLog(@"data converted to string ==> string = %@", stringFromData);
 
     socketIO = [[SocketIO alloc] initWithDelegate:self];
-    [socketIO connectToHost:@"localhost" onPort:8081];
+    [socketIO connectToHost:@"localhost" onPort:1337];
     
     NSString *deviceType = [UIDevice currentDevice].model;
     NSUUID *deviceUUID = [UIDevice currentDevice].identifierForVendor;
@@ -103,20 +104,21 @@
 {
     NSLog(@"submit");
     //make object and post to sails
-    NSArray* arrayKeys = @[@"phonename", @"deviceType", @"deviceId"];
-    NSArray* arrayValues = @[@"'Nubert'", @"iPhone4S", @"001"];
-    NSDictionary* tempDictionary = [[NSDictionary alloc] initWithObjects:arrayValues forKeys:arrayKeys];
+    NSDictionary* tempDictionary = [[NSDictionary alloc] initWithObjects:@[@"Hello world"] forKeys:@[@"text"]];
     NSData* dataObject = [NSKeyedArchiver archivedDataWithRootObject:tempDictionary];
     
-    NSLog(@"data looks like => %@", dataObject);
+    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+    [request setHTTPMethod:@"POST"];
+    [request addValue:@"8bit" forHTTPHeaderField:@"Content-Transfer-Encoding"];
+    [request addValue:@"http://localhost:1337" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:dataObject];
     
-    SocketIOCallback cb = ^(id argsData) {
-        NSDictionary *response = argsData;
-        NSLog(@"response => %@", response);
-        // do something with response //no response detected "error: No callback specified!"
-    };
-    [socketIO sendEvent:@"POST" withData:tempDictionary andAcknowledge:cb];
-    
+    NSData* response = [NSURLConnection sendSynchronousRequest:request returningResponse:0 error:nil];
+    NSString* responseFromData = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+    oTextView.text = responseFromData;
 
 }
+
+
+
 @end

@@ -11,8 +11,7 @@ module.exports = {
   attributes: {
   	
   	
-  	text: 'string',
-  	user: 'string'
+  	text: 'string'
     
   }
 

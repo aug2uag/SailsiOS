@@ -29,61 +29,38 @@
                                     <action selector="submitText:" destination="2" eventType="touchUpInside" id="g7f-he-MNe"/>
                                 </connections>
                             </button>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0Bq-zw-FHc">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter text" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jqL-Ta-58o">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="274" id="mkt-ob-bsN"/>
+                                    <constraint firstAttribute="width" constant="171" id="36o-kW-uhy"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Ov-Zc-PcL">
-                                    <size key="itemSize" width="274" height="272"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="unp-Ei-2vh">
-                                        <rect key="frame" x="0.0" y="1" width="274" height="272"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="274" height="272"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <color key="backgroundColor" red="0.88136015330783468" green="0.96698007040339951" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="2" id="Itm-5G-kHi"/>
-                                    <outlet property="delegate" destination="2" id="gnO-jU-q14"/>
-                                </connections>
-                            </collectionView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MEy-l4-T3z">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N18-WP-8Me">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="9Tg-iW-rYI"/>
-                                    <constraint firstAttribute="width" constant="198" id="ZjD-9R-sYG"/>
+                                    <constraint firstAttribute="width" constant="240" id="QFh-QC-WFN"/>
+                                    <constraint firstAttribute="height" constant="318" id="Z3N-Qa-SHP"/>
                                 </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <connections>
-                                    <outlet property="delegate" destination="2" id="Q2f-ib-2aV"/>
-                                </connections>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="0Bq-zw-FHc" firstAttribute="top" secondItem="MEy-l4-T3z" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="I3M-8h-9Fe"/>
+                            <constraint firstAttribute="trailing" secondItem="jqL-Ta-58o" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Cso-OJ-gQv"/>
+                            <constraint firstItem="N18-WP-8Me" firstAttribute="top" secondItem="3" secondAttribute="top" constant="99" id="Mfl-jg-1J1"/>
+                            <constraint firstItem="jqL-Ta-58o" firstAttribute="top" secondItem="3" secondAttribute="top" constant="17" id="NPP-dO-U0t"/>
                             <constraint firstItem="Bnh-To-uH7" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="14" id="Na1-QQ-Hoo"/>
                             <constraint firstItem="Bnh-To-uH7" firstAttribute="top" secondItem="3" secondAttribute="top" constant="8" id="PX0-HN-KQg"/>
-                            <constraint firstItem="0Bq-zw-FHc" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="R0R-xW-FeE"/>
-                            <constraint firstAttribute="trailing" secondItem="0Bq-zw-FHc" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="b7C-j5-Oka"/>
-                            <constraint firstItem="0Bq-zw-FHc" firstAttribute="centerY" secondItem="3" secondAttribute="centerY" type="default" id="mXh-VO-yjA"/>
-                            <constraint firstItem="MEy-l4-T3z" firstAttribute="leading" secondItem="Bnh-To-uH7" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="oj9-bn-JIl"/>
+                            <constraint firstItem="jqL-Ta-58o" firstAttribute="baseline" secondItem="Bnh-To-uH7" secondAttribute="baseline" type="default" id="gDg-ff-seG"/>
+                            <constraint firstItem="N18-WP-8Me" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="ovO-LW-HO3"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="oCollectionView" destination="0Bq-zw-FHc" id="GJp-pV-EJa"/>
-                        <outlet property="oTextView" destination="MEy-l4-T3z" id="3Th-ry-HZr"/>
+                        <outlet property="oTextField" destination="jqL-Ta-58o" id="VdC-WY-2np"/>
+                        <outlet property="oTextView" destination="N18-WP-8Me" id="ioB-qV-4cK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -95,23 +72,12 @@
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
         </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
             <relationships>
                 <relationship kind="action" name="submitText:"/>
-                <relationship kind="outlet" name="oCollectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="oLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="oTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="oTextView" candidateClass="UITextView"/>
             </relationships>
         </class>
