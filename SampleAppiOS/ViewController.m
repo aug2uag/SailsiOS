@@ -54,23 +54,6 @@
     
 }
 
-
-
-#pragma mark -action methods
-- (IBAction)submitText:(id)sender
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest
-									requestWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"]];
-    
-    NSString *params = [[NSString alloc] initWithFormat:@"text=hello"];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
-    [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
-    
-}
-
-
 #pragma mark - NSURLConnectionDelegate
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     mutableData = [NSMutableData data];
@@ -101,5 +84,21 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     [alert show];
 }
+
+#pragma mark -action methods
+- (IBAction)submitText:(id)sender
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest
+									requestWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"]];
+    NSString* inputString = oTextField.text;
+    NSString *params = [[NSString alloc] initWithFormat:@"text=%@", inputString];
+    oTextField.text = nil;
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    
+}
+
 
 @end
