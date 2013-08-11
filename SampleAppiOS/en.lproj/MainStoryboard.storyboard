@@ -18,7 +18,7 @@
                                     <constraint firstAttribute="width" constant="68" id="PkI-oI-rjB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Button">
+                                <state key="normal" title="Go!">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -37,28 +37,54 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N18-WP-8Me">
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="0.86749004677283026" blue="0.82358892390613603" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="QFh-QC-WFN"/>
-                                    <constraint firstAttribute="height" constant="318" id="Z3N-Qa-SHP"/>
+                                    <constraint firstAttribute="height" constant="57" id="Fqq-IK-Tn5"/>
                                 </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Message status..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AeD-08-wGW">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="137" id="8GQ-3J-Ge9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.30347304905809291" blue="0.36868632039328453" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="iZD-wG-BFL">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="274" id="nzY-6r-Xlx"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="2" id="0Hg-iQ-G76"/>
+                                    <outlet property="delegate" destination="2" id="Qpi-5V-Pwq"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="jqL-Ta-58o" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Cso-OJ-gQv"/>
-                            <constraint firstItem="N18-WP-8Me" firstAttribute="top" secondItem="3" secondAttribute="top" constant="99" id="Mfl-jg-1J1"/>
-                            <constraint firstItem="jqL-Ta-58o" firstAttribute="top" secondItem="3" secondAttribute="top" constant="17" id="NPP-dO-U0t"/>
-                            <constraint firstItem="Bnh-To-uH7" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="14" id="Na1-QQ-Hoo"/>
-                            <constraint firstItem="Bnh-To-uH7" firstAttribute="top" secondItem="3" secondAttribute="top" constant="8" id="PX0-HN-KQg"/>
+                            <constraint firstItem="iZD-wG-BFL" firstAttribute="top" secondItem="3" secondAttribute="top" constant="152" id="3nT-3m-zcm"/>
+                            <constraint firstItem="Bnh-To-uH7" firstAttribute="baseline" secondItem="AeD-08-wGW" secondAttribute="baseline" type="default" id="4eV-0l-czn"/>
+                            <constraint firstItem="N18-WP-8Me" firstAttribute="top" secondItem="3" secondAttribute="top" constant="76" id="6bi-Ii-0Db"/>
+                            <constraint firstAttribute="trailing" secondItem="iZD-wG-BFL" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Aq2-3t-OSs"/>
+                            <constraint firstItem="iZD-wG-BFL" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Dp1-N8-MNR"/>
+                            <constraint firstItem="jqL-Ta-58o" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Hye-ag-76h"/>
+                            <constraint firstItem="Bnh-To-uH7" firstAttribute="centerY" secondItem="jqL-Ta-58o" secondAttribute="centerY" type="default" id="Lsc-jg-wiw"/>
+                            <constraint firstAttribute="trailing" secondItem="Bnh-To-uH7" secondAttribute="trailing" constant="40" id="SvZ-vX-bT2"/>
+                            <constraint firstItem="Bnh-To-uH7" firstAttribute="top" secondItem="3" secondAttribute="top" constant="11" id="Txy-jH-BeR"/>
+                            <constraint firstItem="iZD-wG-BFL" firstAttribute="centerX" secondItem="N18-WP-8Me" secondAttribute="centerX" type="default" id="ZlE-iK-JVl"/>
+                            <constraint firstItem="Bnh-To-uH7" firstAttribute="trailing" secondItem="N18-WP-8Me" secondAttribute="trailing" type="default" id="fV8-wn-SWc"/>
                             <constraint firstItem="jqL-Ta-58o" firstAttribute="baseline" secondItem="Bnh-To-uH7" secondAttribute="baseline" type="default" id="gDg-ff-seG"/>
-                            <constraint firstItem="N18-WP-8Me" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="ovO-LW-HO3"/>
+                            <constraint firstItem="AeD-08-wGW" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="27" id="kzL-1c-pt7"/>
+                            <constraint firstItem="AeD-08-wGW" firstAttribute="top" secondItem="jqL-Ta-58o" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="roo-dZ-LBW"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="oLabel" destination="AeD-08-wGW" id="PQs-I9-aHQ"/>
+                        <outlet property="oTableView" destination="iZD-wG-BFL" id="chg-zu-9LF"/>
                         <outlet property="oTextField" destination="jqL-Ta-58o" id="VdC-WY-2np"/>
                         <outlet property="oTextView" destination="N18-WP-8Me" id="ioB-qV-4cK"/>
                     </connections>
@@ -77,6 +103,7 @@
             <relationships>
                 <relationship kind="action" name="submitText:"/>
                 <relationship kind="outlet" name="oLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="oTableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="oTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="oTextView" candidateClass="UITextView"/>
             </relationships>

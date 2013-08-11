@@ -13,14 +13,17 @@
 {
     SocketIO* socketIO;
     
+    __weak IBOutlet UILabel     *oLabel;
     __weak IBOutlet UITextField *oTextField;
-    __weak IBOutlet UITextView *oTextView;
+    __weak IBOutlet UITextView  *oTextView;
+    __weak IBOutlet UITableView *oTableView;
     
-    NSMutableData* mutableData;
-    NSString *suggestedFilename;
+    NSMutableData*  mutableData;
+    NSString*       suggestedFilename;
     
-    NSInputStream *inputStream;
-    NSOutputStream *outputStream;
+    NSInputStream*  inputStream;
+    NSOutputStream* outputStream;
+    NSArray*        sailsArray;
 }
 
 - (IBAction)submitText:(id)sender;
@@ -32,7 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    oLabel.hidden = YES;
     //handshake
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:1337/"]
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -54,6 +57,52 @@
     
 }
 
+#pragma mark-table view data source
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (sailsArray.count == 0) {
+        return 1;
+    }
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        oLabel.hidden = YES;
+    });
+    return sailsArray.count;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"id"];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"id"];
+    }
+    
+    if (sailsArray.count == 0) {
+        cell.textLabel.text = @"array does not exist (yet)";
+        return cell;
+    }
+    //declare string, assign to value at indexPath from array
+    //array may be made from [dictionary allKeys];
+    NSString* string = [[sailsArray objectAtIndex:indexPath.row] valueForKey:@"text"];
+    NSString* subString = [[sailsArray objectAtIndex:indexPath.row] valueForKey:@"createdAt"];
+    
+    //set string to textLabel of cell
+    [cell.textLabel setText:string];
+    [cell.detailTextLabel setText:subString];
+    
+    return cell;
+}
+
+
 #pragma mark - NSURLConnectionDelegate
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     mutableData = [NSMutableData data];
@@ -68,8 +117,8 @@
     oTextView.text = [[NSString alloc] initWithData:mutableData encoding:NSUTF8StringEncoding];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        NSArray* returnArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSLog(@"jsonArray => %@", returnArray);
+        sailsArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        [oTableView reloadData];
     }];
     
     
@@ -88,6 +137,7 @@
 #pragma mark -action methods
 - (IBAction)submitText:(id)sender
 {
+    oLabel.hidden = NO;
     NSMutableURLRequest *request = [NSMutableURLRequest
 									requestWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"]];
     NSString* inputString = oTextField.text;
