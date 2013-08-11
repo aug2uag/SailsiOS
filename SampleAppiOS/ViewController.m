@@ -29,7 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //  **API** 
+    //  **Socket.io API** 
     //send data
     /**
     - (void) sendMessage:(NSString *)data;
@@ -61,10 +61,9 @@
     /**
      [socketIO connectToHost:@"localhost" onPort:3000 withParams:nil withNamespace:@"/users"];
      **/
- 
     // objects returned as NSDATA data property (variableName.data)
-    NSLog(@"in here");
     
+    //handshake
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:1337/"]
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                                        timeoutInterval:10];
@@ -75,25 +74,13 @@
     NSURLResponse *urlResponse = nil;
     NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
     
-//    if (statusCode == 200) {
-//        [oCollectionView reloadData];
-//    }
-    
-    NSLog(@"synchronous for handshake-- => data = %@", response1);
-    //NSInteger statusCode = [((NSHTTPURLResponse *)response1) statusCode];
-
-    //NSLog(@"status code => %i", statusCode);
-    
+    //converts response to string (index.html)
     NSString* stringFromData = [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding];
     NSLog(@"data converted to string ==> string = %@", stringFromData);
 
+    //init socket.io
     socketIO = [[SocketIO alloc] initWithDelegate:self];
     [socketIO connectToHost:@"localhost" onPort:1337];
-    
-    NSString *deviceType = [UIDevice currentDevice].model;
-    NSUUID *deviceUUID = [UIDevice currentDevice].identifierForVendor;
-    NSString* deviceId = [deviceUUID UUIDString];
-    NSLog(@"devicetype =>%@\ndeviceId => %@", deviceType, deviceId);
     
 }
 
@@ -103,19 +90,44 @@
 - (IBAction)submitText:(id)sender
 {
     NSLog(@"submit");
-    //make object and post to sails
+    //make dummy object to post sails (localhost)
     NSDictionary* tempDictionary = [[NSDictionary alloc] initWithObjects:@[@"Hello world"] forKeys:@[@"text"]];
-    NSData* dataObject = [NSKeyedArchiver archivedDataWithRootObject:tempDictionary];
+    //NSData* dataObject = [NSKeyedArchiver archivedDataWithRootObject:tempDictionary];
     
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
-    [request setHTTPMethod:@"POST"];
-    [request addValue:@"8bit" forHTTPHeaderField:@"Content-Transfer-Encoding"];
-    [request addValue:@"http://localhost:1337" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:dataObject];
+
+    // POST with SocketIO
+    [socketIO connectToHost:@"localhost" onPort:3000 withParams:nil withNamespace:@"/messages"];
+    [socketIO sendJSON:tempDictionary withAcknowledge:^(id argsData) {
+        NSLog(@"callback %@", [[NSString alloc] initWithData:argsData encoding:NSUTF8StringEncoding]);
+    }];
     
-    NSData* response = [NSURLConnection sendSynchronousRequest:request returningResponse:0 error:nil];
-    NSString* responseFromData = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-    oTextView.text = responseFromData;
+    
+    
+    
+    /**     **NATIVE ASYNCHRONOUS POST**
+     
+     //create request natively
+     //    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+     //    [request setHTTPMethod:@"POST"];
+     //    [request setHTTPBody:dataObject];
+     
+     //    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+     //        //[NSJSONSerialization dataWithJSONObject:tempDictionary options:0 error:nil];
+     //        //NSLog(@"response array => %@", array);
+     //        NSString* responseFromData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+     //        oTextView.text = responseFromData;
+     //    }];
+     
+     **/
+    
+    
+    
+    /**     **NATIVE SYNCHRONOUS POST**
+     
+    NSData* responseFromRequest = [NSURLConnection sendSynchronousRequest:request returningResponse:0 error:nil];
+    oTextView.text = [[NSString alloc] initWithData:responseFromRequest encoding:NSUTF8StringEncoding];
+     
+     **/
 
 }
 
