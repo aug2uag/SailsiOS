@@ -92,16 +92,12 @@
 #pragma mark -action methods
 - (IBAction)submitText:(id)sender
 {
-    NSLog(@"submit");
-    //make dummy object to post sails (localhost)
-    NSDictionary* tempDictionary = [[NSDictionary alloc] initWithObjects:@[@"Hello world"] forKeys:@[@"text"]];
-
     //from http://codewithchris.com/tutorial-how-to-use-ios-nsurlconnection-by-example/#post
     
     NSMutableURLRequest *request = [NSMutableURLRequest
 									requestWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"]];
     
-    NSString *params = [[NSString alloc] initWithFormat:@"foo=bar&key=value"];
+    NSString *params = [[NSString alloc] initWithFormat:@"text=hello"];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
     [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -121,7 +117,7 @@
 }
 
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSLog(@"mutableArray in finishedLoading => %@", [[NSString alloc] initWithData:mutableData encoding:NSUTF8StringEncoding]);
+    oTextView.text = [[NSString alloc] initWithData:mutableData encoding:NSUTF8StringEncoding];
     //NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     //NSString *path = [documentsDir stringByAppendingPathComponent:suggestedFilename];
     //[mutableData writeToFile:path atomically:YES];
