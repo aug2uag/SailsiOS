@@ -16,6 +16,9 @@
     __weak IBOutlet UITextField *oTextField;
     __weak IBOutlet UITextView *oTextView;
     
+    NSMutableData* mutableData;
+    NSString *suggestedFilename;
+    
     NSInputStream *inputStream;
     NSOutputStream *outputStream;
 }
@@ -92,45 +95,43 @@
     NSLog(@"submit");
     //make dummy object to post sails (localhost)
     NSDictionary* tempDictionary = [[NSDictionary alloc] initWithObjects:@[@"Hello world"] forKeys:@[@"text"]];
-    //NSData* dataObject = [NSKeyedArchiver archivedDataWithRootObject:tempDictionary];
-    
 
-    // POST with SocketIO
-    [socketIO connectToHost:@"localhost" onPort:3000 withParams:nil withNamespace:@"/messages"];
-    [socketIO sendJSON:tempDictionary withAcknowledge:^(id argsData) {
-        NSLog(@"callback %@", [[NSString alloc] initWithData:argsData encoding:NSUTF8StringEncoding]);
-    }];
+    //from http://codewithchris.com/tutorial-how-to-use-ios-nsurlconnection-by-example/#post
     
+    NSMutableURLRequest *request = [NSMutableURLRequest
+									requestWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"]];
     
+    NSString *params = [[NSString alloc] initWithFormat:@"foo=bar&key=value"];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
+    [[NSURLConnection alloc] initWithRequest:request delegate:self];
     
-    
-    /**     **NATIVE ASYNCHRONOUS POST**
-     
-     //create request natively
-     //    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
-     //    [request setHTTPMethod:@"POST"];
-     //    [request setHTTPBody:dataObject];
-     
-     //    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-     //        //[NSJSONSerialization dataWithJSONObject:tempDictionary options:0 error:nil];
-     //        //NSLog(@"response array => %@", array);
-     //        NSString* responseFromData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-     //        oTextView.text = responseFromData;
-     //    }];
-     
-     **/
-    
-    
-    
-    /**     **NATIVE SYNCHRONOUS POST**
-     
-    NSData* responseFromRequest = [NSURLConnection sendSynchronousRequest:request returningResponse:0 error:nil];
-    oTextView.text = [[NSString alloc] initWithData:responseFromRequest encoding:NSUTF8StringEncoding];
-     
-     **/
 
 }
 
 
+#pragma mark - NSURLConnectionDelegate
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    mutableData = [NSMutableData data];
+    //suggestedFilename = response.suggestedFilename;
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [mutableData appendData:data];
+}
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    NSLog(@"mutableArray in finishedLoading => %@", [[NSString alloc] initWithData:mutableData encoding:NSUTF8StringEncoding]);
+    //NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    //NSString *path = [documentsDir stringByAppendingPathComponent:suggestedFilename];
+    //[mutableData writeToFile:path atomically:YES];
+
+}
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    NSLog(@"Erro");
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    [alert show];
+}
 
 @end
