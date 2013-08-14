@@ -4,13 +4,13 @@ Sails Tutorial for iOS
 How to get started developing full stack applications with Sails
 -------------------------
 
-    We are going to make an application for the iPhone in XCode v4.6 that displays messages from the Sails server to the iPhone. To get started, install Sails:
+We are going to make an application for the iPhone in XCode v4.6 that displays messages from the Sails server to the iPhone. To get started, install Sails:
 
-    *Click [here to get started with installing Sails](https://github.com/balderdashy/sails).*
+*Click [here to get started with installing Sails](https://github.com/balderdashy/sails).*
 
-    Now that you have Sails installed, let's create a Sails project. The first thing we will do is create the Xcode project. In Xcode, create a Single View application, and give it the name SampleAppSails.
+Now that you have Sails installed, let's create a Sails project. The first thing we will do is create the Xcode project. In Xcode, create a Single View application, and give it the name SampleAppSails.
 
-    Open Terminal, and go to your Xcode project's folder. Mine was on the desktop, and my path was '/User/aug2uag/desktop/SampleAppSails/'. Once you are in your Xcode project directory, create the Sails application. Note, that we could have initially created the Sails application, and included the Xcode project in that directory. Since the Sails directory includes multiple other directories, I opted to organize it as mentioned above.
+Open Terminal, and go to your Xcode project's folder. Mine was on the desktop, and my path was '/User/aug2uag/desktop/SampleAppSails/'. Once you are in your Xcode project directory, create the Sails application. Note, that we could have initially created the Sails application, and included the Xcode project in that directory. Since the Sails directory includes multiple other directories, I opted to organize it as mentioned above.
 
     To create your new Sails project, in terminal type:
     ```sails new sailsXcodeProject```
