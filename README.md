@@ -12,28 +12,29 @@ Now that you have Sails installed, let's create a Sails project. The first thing
 
 Open Terminal, and go to your Xcode project's folder. Mine was on the desktop, and my path was '/User/aug2uag/desktop/SampleAppSails/'. Once you are in your Xcode project directory, create the Sails application. Note, that we could have initially created the Sails application, and included the Xcode project in that directory. Since the Sails directory includes multiple other directories, I opted to organize it as mentioned above.
 
-    To create your new Sails project, in terminal type:
-    ```sails new sailsXcodeProject```
+To create your new Sails project, in terminal type:
+    sails new sailsXcodeProject
 
-    You will notice Sails installs with many features right away. Among these are automagically generated RESTful API requests that we will be using for our application. Let's open our Sails project files, and inspect these elements.
+You will notice Sails installs with many features right away. Among these are automagically generated RESTful API requests that we will be using for our application. Let's open our Sails project files, and inspect these elements.
 
-    In /config you will find the filename controllers.js that includes instructions for a blueprint. The blueprint is a prototype for the actual Sails application. Here, the blueprint for the app is specified to include:
-    ```// Automatic REST blueprints enabled?
+In /config you will find the filename controllers.js that includes instructions for a blueprint. The blueprint is a prototype for the actual Sails application. Here, the blueprint for the app is specified to include:
+    // Automatic REST blueprints enabled?
     // e.g.
     // 'get /:controller/:id?'
     // 'post /:controller'
     // 'put /:controller/:id'
     // 'delete /:controller/:id'
-    rest: true```
+    rest: true
 
-    If you like to disable the default methods, and write your own custom methods, then you can set the parameter to false.
+If you like to disable the default methods, and write your own custom methods, then you can set the parameter to false.
 
-    For the purposes of the application we are developing, the default controller methods will be selected to perform our actions. Specifically, we will want to:
-    * POST a message to the server, that includes our text and userId
-    * GET the messages from the server, and display them as a list on the iPhone
+For the purposes of the application we are developing, the default controller methods will be selected to perform our actions. Specifically, we will want to:
 
-    We will create a single Messages entity:
-    ```sails g Messages```
+* POST a message to the server, that includes our text and userId
+* GET the messages from the server, and display them as a list on the iPhone
+
+We will create a single Messages entity:
+    sails g Messages
 
     This has created the Messages model, and controller. Let's open the model from the /api directory of your Sails application, and add the following attributes:<br>
     ```module.exports = {
