@@ -102,6 +102,22 @@
     return cell;
 }
 
+#pragma mark -textField delegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    if (newLength>30) {
+    	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Your Text" message:@"is too lengthy" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    	[alert show];
+    	return NO;
+    }
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 
 #pragma mark - NSURLConnectionDelegate
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -120,12 +136,6 @@
         sailsArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         [oTableView reloadData];
     }];
-    
-    
-    //NSString *documentsDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    //NSString *path = [documentsDir stringByAppendingPathComponent:suggestedFilename];
-    //[mutableData writeToFile:path atomically:YES];
-    
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -137,6 +147,7 @@
 #pragma mark -action methods
 - (IBAction)submitText:(id)sender
 {
+    [oTextField resignFirstResponder];
     oLabel.hidden = NO;
     NSMutableURLRequest *request = [NSMutableURLRequest
 									requestWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"]];

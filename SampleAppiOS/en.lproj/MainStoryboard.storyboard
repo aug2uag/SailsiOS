@@ -35,6 +35,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2" id="IS7-3U-r3D"/>
+                                </connections>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N18-WP-8Me">
                                 <color key="backgroundColor" red="1" green="0.86749004677283026" blue="0.82358892390613603" alpha="1" colorSpace="calibratedRGB"/>
@@ -94,21 +97,6 @@
             <point key="canvasLocation" x="-140" y="-69"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="submitText:"/>
-                <relationship kind="outlet" name="oLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="oTableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="oTextField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="oTextView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
