@@ -176,7 +176,8 @@ We will send a POST request to the server for the message we will type in our Te
 
     - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 
-    In your viewDidLoad set the textField delegate to self, and in the ViewController.m file, add the following:
+In your viewDidLoad set the textField delegate to self, and in the ViewController.m file, add the following:
+
    - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
     if (newLength>30) {
