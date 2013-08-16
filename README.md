@@ -178,7 +178,7 @@ We will send a POST request to the server for the message we will type in our Te
 
 In your viewDidLoad set the textField delegate to self, and in the ViewController.m file, add the following:
 
-   - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSUInteger newLength = [textField.text length] + [string length] - range.length;
     if (newLength>30) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Your Text" message:@"is too lengthy" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
