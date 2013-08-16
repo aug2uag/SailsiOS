@@ -10,14 +10,16 @@ We are going to make an application for the iPhone in XCode v4.6 that displays m
 
 Now that you have Sails installed, let's create a Sails project. The first thing we will do is create the Xcode project. In Xcode, create a Single View application, and give it the name SampleAppSails.
 
-Open Terminal, and go to your Xcode project's folder. Mine was on the desktop, and my path was '/User/aug2uag/desktop/SampleAppSails/'. Once you are in your Xcode project directory, create the Sails application. Note, that we could have initially created the Sails application, and included the Xcode project in that directory. Since the Sails directory includes multiple other directories, I opted to organize it as mentioned above.
+Open Terminal, and go to your Xcode project's folder. Mine was on the desktop, and my path was ```/User/aug2uag/desktop/SampleAppSails/```. Once you are in your Xcode project directory, create the Sails application. Note, that we could have initially created the Sails application, and included the Xcode project in that directory. Since the Sails directory includes multiple other directories, I opted to organize it as mentioned above.
 
 To create your new Sails project, in terminal type:
+
     sails new sailsXcodeProject
 
 You will notice Sails installs with many features right away. Among these are automagically generated RESTful API requests that we will be using for our application. Let's open our Sails project files, and inspect these elements.
 
-In /config you will find the filename controllers.js that includes instructions for a blueprint. The blueprint is a prototype for the actual Sails application. Here, the blueprint for the app is specified to include:
+In ```/config``` you will find the filename controllers.js that includes instructions for a blueprint. The blueprint is a prototype for the actual Sails application. Here, the blueprint for the app is specified to include:
+
     // Automatic REST blueprints enabled?
     // e.g.
     // 'get /:controller/:id?'
@@ -34,9 +36,11 @@ For the purposes of the application we are developing, the default controller me
 * GET the messages from the server, and display them as a list on the iPhone
 
 We will create a single Messages entity:
+
     sails g Messages
 
 This has created the Messages model, and controller. Let's open the model from the /api directory of your Sails application, and add the following attributes:
+
     module.exports = {
         attributes: {<
         text: 'string'
@@ -52,7 +56,7 @@ This says that we will be storing Messages objects on the server, and that the m
 
 There is a simple Hello World function to demonstrate the functional style language used in Sails that is common to Node. Each function operates in a block, and that makes it possible for the program to continue without the need for the result of the function to return. We will be sticking with the default controller methods, and those are abstracted away from us, unless we had decided to write our own in the controller.
 
-We can demonstrate the use of the functions, by calling a HTTP GET request to the server. Since the function resides in the MessagesController in the /messages route, it will be accessible via the route http://localhost:1337/messages/sayHello and you can make a request or use a REST client such as 'Postman' to demonstrate the output.
+We can demonstrate the use of the functions, by calling a HTTP GET request to the server. Since the function resides in the MessagesController in the /messages route, it will be accessible via the route ```http://localhost:1337/messages/sayHello``` and you can make a request or use a REST client such as 'Postman' to demonstrate the output.
 
 Let's link up a Mongo database to hold our information. I already have my Mongo shell running on port 27017, fire up your mongod, and in the /config/session.js file add the following:
     module.exports.session = {
