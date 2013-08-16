@@ -47,7 +47,7 @@ This has created the Messages model, and controller. Let's open the model from t
         }
     };
 
-This says that we will be storing Messages objects on the server, and that the messages object will consist of text and deviceType. Note that a timestamp will be generated automatically each time a new object is produced. For now, let's move on, and take a look at the MessagesController.js file found in the ```/api``` directory of your Sails application:
+This says that we will be storing Messages objects on the server, and that the messages object will consist of text and timestamp. Note that a timestamp will be generated automatically each time a new object is made. For now, let's move on, and take a look at the MessagesController.js file found in the ```/api``` directory of your Sails application:
 
     module.exports = {
         sayHello: function (req, res) {
@@ -130,7 +130,7 @@ Create your tableViewDataSource methods, with logic to handle the empty array (i
         //declare string, assign to value at indexPath from array
         //array may be made from [dictionary allKeys];
         NSString* string = [[sailsArray objectAtIndex:indexPath.row] valueForKey:@"text"];
-        NSString* subString = [[sailsArray objectAtIndex:indexPath.row] valueForKey:@"deviceType"];
+        NSString* subString = [[sailsArray objectAtIndex:indexPath.row] valueForKey:@"createdAt"];
         
         //set string to textLabel of cell
         [cell.textLabel setText:string];
@@ -194,8 +194,7 @@ We are limiting the textField to 30 characters, and sending an alert if the coun
     {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:1337/messages"]];
         NSString* inputString = oTextField.text;
-        NSString *deviceType = [UIDevice currentDevice].model;
-        NSString *params = [[NSString alloc] initWithFormat:@"text=%@&deviceType=%@", inputString, deviceType];
+        NSString *params = [[NSString alloc] initWithFormat:@"text=%@", inputString];
         oTextField.text = nil;
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:[params dataUsingEncoding:NSUTF8StringEncoding]];
