@@ -47,7 +47,8 @@ This has created the Messages model, and controller. Let's open the model from t
         }
     };
 
-This says that we will be storing Messages objects on the server, and that the messages object will consist of text and deviceType. Note that a timestamp will be generated automatically each time a new object is produced. For now, let's move on, and take a look at the MessagesController.js file found in the /api directory of your Sails application:
+This says that we will be storing Messages objects on the server, and that the messages object will consist of text and deviceType. Note that a timestamp will be generated automatically each time a new object is produced. For now, let's move on, and take a look at the MessagesController.js file found in the ```/api``` directory of your Sails application:
+
     module.exports = {
         sayHello: function (req, res) {
         res.send('hello world!');
@@ -59,6 +60,7 @@ There is a simple Hello World function to demonstrate the functional style langu
 We can demonstrate the use of the functions, by calling a HTTP GET request to the server. Since the function resides in the MessagesController in the /messages route, it will be accessible via the route ```http://localhost:1337/messages/sayHello``` and you can make a request or use a REST client such as 'Postman' to demonstrate the output.
 
 Let's link up a Mongo database to hold our information. I already have my Mongo shell running on port 27017, fire up your mongod, and in the /config/session.js file add the following:
+
     module.exports.session = {
       secret: '7309c3e86f54d10dbcdf2b4e113ab393',
       adapter: 'mongo',
@@ -80,6 +82,7 @@ Your SampleApplicationSails.xcodeproj should be open on XCode. Go to your storyb
 * button
 
 Connect these UI elements to the @interface of the ViewController.m file. Make sure you connect your tableView data source outlet to the ViewController. Create an NSArray instance variable, and your ViewController.m @interface should look something like:
+
     @interface ViewController () 
     {
         SocketIO* socketIO;
@@ -95,6 +98,7 @@ Connect these UI elements to the @interface of the ViewController.m file. Make s
     @end
 
 Create your tableViewDataSource methods, with logic to handle the empty array (i.e. since it may be initially empty):
+
     #pragma mark-table view data source
     - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
     {
@@ -139,15 +143,18 @@ To connect to our server (that should be running in the background), we need to 
 *Add the Socket.io files from [Socket.IO / Objective C Library on Github](href=https://github.com/pkyeck/socket.IO-objc).*
 
 To your ViewController.h, add:
+
     #import "SocketIO.h"
 
 Make ViewController conform to the SocketIO delegate methods by adding SocketIODelegate next to your ViewController.
 
 In your ViewController.m file, create a SocketIO instance variable name socketIO. In the ViewController.m @implementation viewDidLoad, add the following:
+
     socketIO = [[SocketIO alloc] initWithDelegate:self];
     [socketIO connectToHost:@"localhost" onPort:1337];
 
 Run your Xcode project, and let's see what happens. Take a look at your shell running your Sails application, and you will notice that we received an error that no handshake occured. To address this, we will make a call to the Sails application prior to establishing the socket. In your ViewController.m, add the following before your code that instantiates your SocketIO object:
+
     //handshake
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:1337/"] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
     
@@ -158,13 +165,15 @@ Run your Xcode project, and let's see what happens. Take a look at your shell ru
     NSData *response1 = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];```
 
 Also add the following to view the results of the GET request:
+
     //converts response to string (index.html)
     NSString* stringFromData = [[NSString alloc] initWithData:response1 encoding:NSUTF8StringEncoding];
     NSLog(@"data converted to string ==> string = %@", stringFromData);
 
-Run your Xcode project again, and you should see a log that displays the contents of your /views/home/index.ejs file in your Sails directory.
+Run your Xcode project again, and you should see a log that displays the contents of your ```/views/home/index.ejs``` file in your Sails directory.
 
 We will send a POST request to the server for the message we will type in our TextField. We will limit the size of our input by using the UITextField delegate method:
+
     - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 
     In your viewDidLoad set the textField delegate to self, and in the ViewController.m file, add the following:
@@ -179,6 +188,7 @@ We will send a POST request to the server for the message we will type in our Te
     }
 
 We are limiting the textField to 30 characters, and sending an alert if the count is higher than our limit. So once we have that in place, we can create our submit POST action. To your button action method, add the following:
+
     #pragma mark - textField delegate
     - (IBAction)submitText:(id)sender
     {
@@ -193,6 +203,7 @@ We are limiting the textField to 30 characters, and sending an alert if the coun
     }
 
 We will evaluate the response by logging it to our console via the NSURLConnection delegate. Declare a NSMutableData variable to your ViewController.m @interface. Add the following to implement your NSURLConnection delegate:
+
     #pragma mark - NSURLConnectionDelegate
     -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
         mutableData = [NSMutableData data];
@@ -220,8 +231,3 @@ Now that we can access when the POST request did finish, we will call the server
 In Summary
 ----------
 Sails is an amazingly efficient, and user-friendly technology to turn your iOS applications in to something so much more. I hope this tutorial was a chance for getting your feet wet in iOS with Sails. For more references, please browse the online documentation. Cheers!
-
-
-
-
-
